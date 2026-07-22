@@ -10,17 +10,20 @@ app.get('/', (req, res) => {
 });
 
 app.get('/students', (req, res) => {
-  res.type('text');
-
   countStudents(database)
     .then((data) => {
+      res.type('text');
       res.send(`This is the list of our students\n${data}`);
     })
     .catch((err) => {
+      res.status(500).type('text');
       res.send(`This is the list of our students\n${err.message}`);
     });
 });
 
-app.listen(1245);
+// Yalnız birbaşa işə salınanda serveri başlat
+if (require.main === module) {
+  app.listen(1245);
+}
 
 module.exports = app;
