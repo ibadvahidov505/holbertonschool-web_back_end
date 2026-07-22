@@ -5,22 +5,27 @@ const app = express();
 const database = process.argv[2];
 
 app.get('/', (req, res) => {
-  res.type('text');
-  res.send('Hello Holberton School!');
+  res.status(200).type('text').send('Hello Holberton School!');
 });
 
 app.get('/students', (req, res) => {
-  res.type('text');
-
   countStudents(database)
     .then((data) => {
-      res.send(`This is the list of our students\n${data}`);
+      res
+        .status(200)
+        .type('text')
+        .send(`This is the list of our students\n${data}`);
     })
     .catch((err) => {
-      res.send(`This is the list of our students\n${err.message}`);
+      res
+        .status(500)
+        .type('text')
+        .send(`This is the list of our students\n${err.message}`);
     });
 });
 
-app.listen(1245);
+if (require.main === module) {
+  app.listen(1245);
+}
 
 module.exports = app;
